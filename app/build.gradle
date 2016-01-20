@@ -3,13 +3,20 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.1"
+    useLibrary 'org.apache.http.legacy'
+    lintOptions {
+        checkReleaseBuilds false
+        // Or, if you prefer, you can continue to check for errors in release builds,
+        // but continue the build even when errors are found:
+        abortOnError false
+    }
 
     defaultConfig {
         applicationId "com.hotcast.vr"
         minSdkVersion 15
         targetSdkVersion 23
         versionCode 1
-        versionName "1.0"
+        versionName "v1.0.1"
     }
     buildTypes {
         release {
@@ -29,6 +36,6 @@ dependencies {
     compile 'com.github.d-max:spots-dialog:0.4@aar'
     compile 'org.adw.library:discrete-seekbar:1.0.0'
     compile files('libs/umeng-analytics-v5.6.4.jar')
-    compile 'com.android.support:appcompat-v7:23.0.1'
-    compile 'com.android.support:design:23.0.1'
+    compile 'com.android.support:appcompat-v7:23.1.0'
+    compile 'com.android.support:design:23.1.0'
 }
