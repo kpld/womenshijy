@@ -44,7 +44,6 @@ public class AboutActivity extends BaseActivity {
     Button bt_advice;
     private boolean isEdet = false;
     private boolean isagreement = false;
-
     @Override
     public void onClick(View v) {
         switch (v.getId()){
