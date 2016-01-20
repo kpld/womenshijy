@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <GridView
+        android:id="@+id/grid_vr_cate"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:listSelector="@android:color/transparent"
+        android:layout_marginTop="0dp"
+        android:layout_above="@+id/rl_phone"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="30dp"
+        android:scrollbars="none"
+        android:numColumns="3">
+    </GridView>
+    <RelativeLayout
+        android:id="@+id/rl_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true">
+    <ImageView
+        android:id="@+id/ivChangeToPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/change_to_phone"
+        android:layout_marginTop="14px"
+        android:layout_marginRight="36px"/>
+        <TextView
+            android:layout_toRightOf="@id/ivChangeToPhone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#ffffff"
+            android:singleLine="true"
+            android:textSize="24px"
+            android:text="切换到手机视图"
+            android:layout_marginTop="20dp"/>
+    </RelativeLayout>
+</RelativeLayout>
+<!--
+
+-->

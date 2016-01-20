@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+
+    <string name="app_name">VR热播</string>
+    <string name="mine_cache">离线缓存</string>
+    <string name="mine_about">关于我们</string>
+    <string name="mine_version">版本更新</string>
+    <string name="mine_help">帮助</string>
+    <string name="main_home">首页</string>
+    <string name="main_classify">分类</string>
+    <string name="main_mine">我的</string>
+    <string name="home_newest">最新发布</string>
+    <string name="home_hottest">最热关注</string>
+    <string name="classify_1">占星公寓</string>
+    <string name="classify_2">体育</string>
+    <string name="classify_3">动漫</string>
+    <string name="classify_4">旅游</string>
+    <string name="classify_5">现场</string>
+
+    <string name="pushmsg_center_no_more_msg">已经到底啦</string>
+    <string name="pushmsg_center_pull_up_text">松开加载更多</string>
+    <string name="pushmsg_center_pull_down_text">下拉可以刷新</string>
+    <string name="pushmsg_center_pull_release_text">松开获取更多</string>
+    <string name="pushmsg_center_pull_down_update_time">上次刷新时间 : </string>
+    <string name="pushmsg_center_load_more_ongoing_text">正在加载中</string>
+    <string name="xsearch_loading">正在刷新…</string>
+    <string name="user_agreement">在使用“VR热播”（以下简称本应用）前，请您务必仔细阅读并透彻理解本声明。您可以选择不使用本应用，但如果您使用本应用，您的使用行为将被视为对本声明全部内容的认可。本应用中收录的视频内容中包含部分他人制作或提供的全景视频，您可以通过第三方网站上获取视频及享用服务，本应用对其合法性概不负责，亦不承担任何法律责任。除本应用注明之服务条款外，其他一切因使用本应用而可能遭致的意外，疏忽，侵权及其造成的损失，本应用对齐概不负责，亦不承担任何法律责任。本应用尊重并保护所有使用本应用用户的个人隐私权，您注册的用户名，电子邮件地址等个人资料，非经您亲自许可或根据相关法律，法规的强制规定，本应用不会主动地泄露给第三方。任何网站或者个人的视频内容不想被本应用收录，应该及时向本应用反映，或者在其网站页面中加注拒绝收录的标记，否则本应用将依照惯例视其为可收录网站。任何单位或个人认为通过本应用获得到的内容可能涉及侵犯其信息网络传播权，应该及时提出书面权利通知，并提供身份证明，权属证明及详细侵权情况证明。本应用在收到上述法律文件后，将会依法尽快下线相关内容。</string>
+
+    <!-- 加载图片失败时的提示文本 -->
+    <string name="picture_load_image_failed">点击屏幕，重新加载</string>
+    <!-- 加载中提示 -->
+    <string name="picture_image_loading">正在加载…</string>
+
+    <!-- 下拉刷新和上拉加载更多的文本 -->
+    <string name="pull_to_refresh_header_hint_normal">下拉可以刷新</string>
+    <string name="pull_to_refresh_header_hint_normal2">上拉可以刷新</string>
+    <string name="pull_to_refresh_header_hint_ready">松开后刷新</string>
+    <string name="pull_to_refresh_header_hint_loading">正在加载中</string>
+    <string name="pull_to_refresh_header_last_time">上次刷新时间 : </string>
+    <string name="pull_to_refresh_footer_hint_ready">松开载入更多</string>
+    <string name="pull_to_refresh_refreshing_label">正在加载中</string>
+    <string name="pull_to_refresh_no_more_data">已经到底啦</string>
+    <string name="pull_to_refresh_network_error">网络不给力，请检查网络</string>
+
+
+</resources>

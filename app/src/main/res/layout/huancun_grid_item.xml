@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="#fafafa"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="171.5dp"
+        android:layout_height="105dp">
+
+        <ImageView
+            android:id="@+id/iv_huancun_img"
+            android:layout_width="171.5dp"
+            android:layout_height="105dp"
+            android:src="@mipmap/default_pic" />
+
+        <ImageView
+            android:id="@+id/iv_huancun_sd"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/huancun_img"/>
+
+        <LinearLayout
+            android:id="@+id/ll_huancun_down"
+            android:layout_width="match_parent"
+            android:layout_height="13dp"
+            android:layout_alignParentBottom="true"
+            android:gravity="center"
+            android:layout_below="@+id/iv_huancun_sd"
+            android:layout_marginBottom="12dp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/tv_huancun_downpecent"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="已下載70％"
+                android:textColor="#fa0000"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_huancun_downspeed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:singleLine="true"
+                android:text="120kb/s"
+                android:textColor="#fa0000"
+                android:textSize="12sp" />
+        </LinearLayout>
+        <ImageView
+            android:id="@+id/ib_delete"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
+            android:layout_marginRight="3dp"
+            android:layout_marginTop="3dp"
+            android:src="@mipmap/guanb"
+            android:layout_alignParentRight="true"
+            android:visibility="gone"/>
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/tv_huancun_moviename"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="影片名字"
+        android:textColor="#89000000"
+        android:textSize="15sp" />
+</LinearLayout>

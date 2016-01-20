@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="229dp"
+    android:paddingTop="5dp"
+    android:background="#f0f0f0">
+
+<LinearLayout
+    android:id="@+id/iv_list"
+    android:layout_width="match_parent"
+    android:layout_height="229dp"
+    android:background="@mipmap/default_pic"
+    android:orientation="horizontal" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:background="#44383838"
+        android:paddingBottom="2.5dp"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:orientation="vertical"
+        android:paddingTop="2.5dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentBottom="true"
+            android:gravity="center_vertical"
+            android:orientation="vertical" >
+            <TextView
+                android:id="@+id/tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="热波热波"
+                android:layout_marginLeft="5dp"
+                android:singleLine="true"
+                android:textColor="#ffffff"
+                android:textSize="15sp"/>
+            <TextView
+                android:id="@+id/desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:text="热波出品必属精品"
+                android:textSize="10sp"
+                android:layout_marginLeft="5dp"
+                android:textColor="#F6F6F6"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/show_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:textSize="10sp"
+            android:textColor="#ffffff"
+            android:text="10000已看"/>
+
+
+    </RelativeLayout>
+
+
+</RelativeLayout>
+<!--
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:text="简单评价"
+            android:textColor="@color/white_word_color"
+            android:textSize="11sp" />
+
+-->

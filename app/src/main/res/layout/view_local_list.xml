@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#f0f0f0">
+
+    <include
+        android:id="@+id/head"
+        layout="@layout/layout_head" />
+<FrameLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_below="@id/head">
+    <ImageView
+        android:id="@+id/cache_no"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@mipmap/default_cach"
+        android:visibility="gone"/>
+
+<RelativeLayout
+    android:id="@+id/cache_hava"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="114px"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:visibility="gone">
+        <TextView
+            android:id="@+id/tv_downloding"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:textSize="15sp"
+            android:textColor="#000000"
+            android:text="正在緩存2部兩個文件"/>
+        <TextView
+            android:id="@+id/tv_downloded"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:textSize="8sp"
+            android:textColor="#55000000"
+            android:text="已經完成4個/共22個文件"/>
+    </LinearLayout>
+
+    <GridView
+        android:id="@+id/lv"
+        android:layout_below="@id/ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="5dp"
+        android:horizontalSpacing="11dp"
+        android:scrollbars="none"
+        android:numColumns="2"
+        android:verticalSpacing="10dp"></GridView>
+
+</RelativeLayout>
+
+</FrameLayout>
+    <Button
+        android:id="@+id/bt_editor"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:text="编辑"/>
+</RelativeLayout>
+<!--
+ <com.melnykov.fab.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_margin="16dp"
+        android:src="@mipmap/change_to_vr"
+        fab:fab_colorNormal="#00000000"
+        fab:fab_colorPressed="#00000000"
+        fab:fab_colorRipple="#00000000" />
+-->
