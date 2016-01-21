@@ -36,6 +36,6 @@ dependencies {
     compile 'com.github.d-max:spots-dialog:0.4@aar'
     compile 'org.adw.library:discrete-seekbar:1.0.0'
     compile files('libs/umeng-analytics-v5.6.4.jar')
-    compile 'com.android.support:appcompat-v7:23.1.0'
-    compile 'com.android.support:design:23.1.0'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
 }
