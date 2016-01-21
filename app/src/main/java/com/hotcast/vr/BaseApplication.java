@@ -2,6 +2,7 @@ package com.hotcast.vr;
 
 import android.app.Application;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Environment;
 import android.util.DisplayMetrics;
@@ -9,6 +10,7 @@ import android.util.DisplayMetrics;
 import com.hotcast.vr.bean.Classify;
 import com.hotcast.vr.bean.Details;
 import com.hotcast.vr.bean.HomeRoll;
+import com.hotcast.vr.download.DownLoadService;
 import com.hotcast.vr.tools.L;
 import com.lidroid.xutils.BitmapUtils;
 
@@ -39,6 +41,8 @@ public class BaseApplication extends Application {
     public static List<String> playUrls = new ArrayList<>();//需要下載的電影地址
     public static List<Details> detailsList = new ArrayList<>();//需要下載的電影地址
 
+    public static String userName;
+
     public static BitmapUtils getDisplay(Context context, int failedImgId) {
         BitmapUtils mFinalBitmap = new BitmapUtils(context, IMG_DISCCACHE_DIR);
         mFinalBitmap.configDefaultLoadFailedImage(failedImgId);
@@ -51,9 +55,9 @@ public class BaseApplication extends Application {
     public void onCreate() {
         Thread.currentThread().setUncaughtExceptionHandler(new MyExecptionHandler());
         super.onCreate();
-
+        userName = "moreng1";
         instance = this;
-
+        this.startService(new Intent(this, DownLoadService.class));
         initMeta();
     }
 

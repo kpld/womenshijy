@@ -331,13 +331,21 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
 
     @Override
     public void getIntentData(Intent intent) {
-        spec = getIntent().getStringExtra("spec");
+        spec = getIntent().getStringExtra("spec");//更新的网络地址
 
-        force = getIntent().getIntExtra("force", 0);
-        newFeatures = getIntent().getStringExtra("newFeatures");
+        force = getIntent().getIntExtra("force", 0);//是否需要强制更新
+        newFeatures = getIntent().getStringExtra("newFeatures");//版本更新的日志
         netClassifys = (List<Classify>) getIntent().getSerializableExtra("classifies");
         if (netClassifys != null) {
             BaseApplication.size = netClassifys.size() + 1;
+        }else{
+            DbUtils db = DbUtils.create(LandscapeActivity.this);
+            try {
+                netClassifys = db.findAll(Classify.class);
+                BaseApplication.size = netClassifys.size() + 1;
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
         }
         System.out.println("---netClassifys:" + netClassifys.size());
     }
@@ -470,11 +478,11 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
 
     public void clickItem(int i) {
 //        System.out.println("---clickItem"+i);
-        if(i<netClassifys.size()){
+        if (i < netClassifys.size()) {
             view1.showOrHideProgressBar(true);
             view2.showOrHideProgressBar(true);
             getNetData(netClassifys.get(i).getChannel_id());
-        }else if(i == netClassifys.size()){
+        } else if (i == netClassifys.size()) {
             //查询本地指定的缓存文件夹
             if (dataCacheOk) {
                 cacheIntent = new Intent(LandscapeActivity.this, LocalCachelActivity.class);
@@ -591,7 +599,6 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
                 System.out.println("***VrListActivity *** onStart()");
                 super.onStart();
             }
-
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 view1.showOrHideProgressBar(false);
@@ -608,9 +615,9 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
                 Intent intent = new Intent(LandscapeActivity.this, VrListActivity.class);
                 intent.putExtra("channel_id", channel_id);
                 intent.putExtra("vrPlays", (Serializable) vrPlays);
-                System.out.println("跳转到VrListActivity vrPlays" + vrPlays);
                 LandscapeActivity.this.startActivity(intent);
                 BaseApplication.size = vrPlays.size();
+                System.out.println("----获取到的信息："+responseInfo.result);
             }
 
             @Override

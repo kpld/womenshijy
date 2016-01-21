@@ -330,7 +330,7 @@ public class LocalCachelActivity extends BaseActivity {
             Intent intent = new Intent(LocalCachelActivity.this, PlayerVRActivityNew.class);
             intent.putExtra("play_url", localurl);
             intent.putExtra("title", dbList.get(i).getTitle());
-            intent.putExtra("splite_screen", false);
+            intent.putExtra("splite_screen", true);
             LocalCachelActivity.this.startActivity(intent);
         } else if (localurl == null) {
             if (dbList.get(i).getCurState() == -1) {
