@@ -19,7 +19,7 @@ public class Classify implements Serializable {
     String image_click;
 //    一体机使用的平道图片
     String big_logo;
-    int id;
+    String id;
 
     public String getBig_logo() {
         return big_logo;
@@ -31,11 +31,11 @@ public class Classify implements Serializable {
 
 
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
