@@ -15,6 +15,8 @@ import com.hotcast.vr.services.DownLoadingService;
 import com.hotcast.vr.tools.Constants;
 import com.hotcast.vr.tools.L;
 import com.hotcast.vr.tools.Utils;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 import com.lidroid.xutils.exception.HttpException;
 import com.lidroid.xutils.http.RequestParams;
 import com.lidroid.xutils.http.ResponseInfo;
@@ -86,13 +88,30 @@ public class SplashScapeActivity extends BaseActivity {
                 L.e("ClassifyView  responseInfo:" + responseInfo.result);
                 classifies = new Gson().fromJson(responseInfo.result, new TypeToken<List<Classify>>() {
                 }.getType());
+                saveNateDate();
                 startJmp();
             }
 
             @Override
             public void onFailure(HttpException e, String s) {
+                showToast("网络请求失败，请检查网络");
+                jump();
             }
         });
+    }
+
+    private void saveNateDate() {
+        DbUtils db = DbUtils.create(this);
+        for (int i = 0; i < classifies.size(); i++ ){
+            try {
+                classifies.get(i).setId(classifies.get(i).getChannel_id());
+                db.save(classifies.get(i));
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+        }
+
+
     }
 
     private void getUpDate() {
@@ -158,6 +177,10 @@ public class SplashScapeActivity extends BaseActivity {
         }
         intent.putExtra("classifies", (Serializable) classifies);
         startActivity(intent);
+        finish();
+    }
+    private void jump(){
+        startActivity(new Intent(this,LandscapeActivity.class));
         finish();
     }
 
