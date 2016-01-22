@@ -3,6 +3,7 @@ package com.hotcast.vr.services;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.FileObserver;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.lidroid.xutils.exception.DbException;
  */
 public class FileCacheService extends Service {
     FileCacheLisenter fileCacheLisenter;
+    SharedPreferences sp;
     DbUtils db;
     @Nullable
     @Override
@@ -29,6 +31,7 @@ public class FileCacheService extends Service {
     public void onCreate() {
         super.onCreate();
         db = DbUtils.create(this);
+        sp = getSharedPreferences("cache_config",Context.MODE_PRIVATE);
         fileCacheLisenter = new FileCacheLisenter(BaseApplication.VedioCacheUrl);
         fileCacheLisenter.startWatching();
     }
@@ -61,6 +64,12 @@ public class FileCacheService extends Service {
                     }
                     break;
                 case FileObserver.ALL_EVENTS:
+                    if (!BaseApplication.cacheFileChange) {
+                        BaseApplication.cacheFileChange = true;
+                        SharedPreferences.Editor editor = sp.edit();
+                        editor.putBoolean("cacheFileCache",true);
+                        editor.commit();
+                    }
                     break;
                 case FileObserver.MODIFY:
                     break;

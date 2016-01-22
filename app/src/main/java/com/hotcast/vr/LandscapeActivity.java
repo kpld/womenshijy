@@ -2,6 +2,7 @@ package com.hotcast.vr;
 
 import android.app.usage.UsageEvents;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -338,7 +339,7 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
         netClassifys = (List<Classify>) getIntent().getSerializableExtra("classifies");
         if (netClassifys != null) {
             BaseApplication.size = netClassifys.size() + 1;
-        }else{
+        } else {
             DbUtils db = DbUtils.create(LandscapeActivity.this);
             try {
                 netClassifys = db.findAll(Classify.class);
@@ -599,6 +600,7 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
                 System.out.println("***VrListActivity *** onStart()");
                 super.onStart();
             }
+
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
                 view1.showOrHideProgressBar(false);
@@ -617,7 +619,7 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
                 intent.putExtra("vrPlays", (Serializable) vrPlays);
                 LandscapeActivity.this.startActivity(intent);
                 BaseApplication.size = vrPlays.size();
-                System.out.println("----获取到的信息："+responseInfo.result);
+                System.out.println("----获取到的信息：" + responseInfo.result);
             }
 
             @Override
@@ -653,42 +655,44 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
             if (dbList != null) {
                 System.out.println("---数据库原始尺寸：" + dbList.size());
             }
-            String[] localNames = HotVedioCacheUtils.getVedioCache(BaseApplication.VedioCacheUrl);
-            int size = dbList.size();
-            if (localNames != null) {
-                for (int i = 0; i < localNames.length; i++) {
-                    String title = localNames[i];
-                    if (size == 0) {
-                        LocalBean localBean = new LocalBean();
-                        localBean.setLocalurl(BaseApplication.VedioCacheUrl + localNames[i]);
-                        localBean.setCurState(3);
-                        SaveBitmapUtils.saveMyBitmap(title.replace(".mp4", ""), VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
-                        System.out.println("---数据库没有数据。添加本地bitmap：" + VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
-                        localBean.setImage(BaseApplication.ImgCacheUrl + title.replace(".mp4", "") + ".jpg");
-                        localBean.setUrl("");
-                        localBean.setTitle(localNames[i].replace(".mp4", ""));
-                        dbList.add(localBean);
-                    } else {
-                        for (int j = 0; j < size; j++) {
-                            if (dbList.get(j).getTitle().equals(title.replace(".mp4", ""))) {
-                                //相同不添加
-                                System.out.println(i + "---相同" + dbList.get(j).getTitle());
-                                continue;
-                            } else if (!dbList.get(j).getTitle().equals(title.replace(".mp4", ""))) {
-                                LocalBean localBean = new LocalBean();
-                                localBean.setLocalurl(BaseApplication.VedioCacheUrl + localNames[i]);
-                                localBean.setCurState(3);
-                                SaveBitmapUtils.saveMyBitmap(title.replace(".mp4", ""), VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
-                                System.out.println("---本地bitmap：" + VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
-                                localBean.setImage(BaseApplication.ImgCacheUrl + title.replace(".mp4", "") + ".jpg");
-                                localBean.setTitle(localNames[i].replace(".mp4", ""));
-                                dbList.add(localBean);
-                                System.out.println(i + "---不相同：" + localNames[i]);
+//            if (BaseApplication.cacheFileChange) {
+                String[] localNames = HotVedioCacheUtils.getVedioCache(BaseApplication.VedioCacheUrl);
+                int size = dbList.size();
+                if (localNames != null) {
+                    for (int i = 0; i < localNames.length; i++) {
+                        String title = localNames[i];
+                        if (size == 0) {
+                            LocalBean localBean = new LocalBean();
+                            localBean.setLocalurl(BaseApplication.VedioCacheUrl + localNames[i]);
+                            localBean.setCurState(3);
+                            SaveBitmapUtils.saveMyBitmap(title.replace(".mp4", ""), VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
+                            System.out.println("---数据库没有数据。添加本地bitmap：" + VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
+                            localBean.setImage(BaseApplication.ImgCacheUrl + title.replace(".mp4", "") + ".jpg");
+                            localBean.setUrl("");
+                            localBean.setTitle(localNames[i].replace(".mp4", ""));
+                            dbList.add(localBean);
+                        } else {
+                            for (int j = 0; j < size; j++) {
+                                if (dbList.get(j).getTitle().equals(title.replace(".mp4", ""))) {
+                                    //相同不添加
+                                    System.out.println(i + "---相同" + dbList.get(j).getTitle());
+                                    continue;
+                                } else if (!dbList.get(j).getTitle().equals(title.replace(".mp4", ""))) {
+                                    LocalBean localBean = new LocalBean();
+                                    localBean.setLocalurl(BaseApplication.VedioCacheUrl + localNames[i]);
+                                    localBean.setCurState(3);
+                                    SaveBitmapUtils.saveMyBitmap(title.replace(".mp4", ""), VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
+                                    System.out.println("---本地bitmap：" + VedioBitmapUtils.getMiniVedioBitmap(BaseApplication.VedioCacheUrl + localNames[i]));
+                                    localBean.setImage(BaseApplication.ImgCacheUrl + title.replace(".mp4", "") + ".jpg");
+                                    localBean.setTitle(localNames[i].replace(".mp4", ""));
+                                    dbList.add(localBean);
+                                    System.out.println(i + "---不相同：" + localNames[i]);
+                                }
                             }
                         }
                     }
                 }
-            }
+//            }
             System.out.println("----数据处理完毕");
             dataCacheOk = true;
             return dbList;
@@ -698,6 +702,8 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
         protected void onPostExecute(List<LocalBean> s) {
 //            super.onPostExecute(s);
             System.out.println("----数据处理完毕");
+            BaseApplication.cacheFileChange = false;
+            sp.add("cacheFileCache", false);
             dataCacheOk = true;
 
         }

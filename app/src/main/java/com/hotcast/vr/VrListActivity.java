@@ -243,7 +243,7 @@ public class VrListActivity extends BaseActivity {
                 if (mCurrentImg < 0) {
                     mCurrentImg = titles.size() - 1;
                 }
-                if (index >= 0) {
+                if (index > 0) {
                     page = index + "/" + vrPlays.size();
                     span = new SpannableString(page);
                     span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
@@ -358,7 +358,7 @@ public class VrListActivity extends BaseActivity {
                 if (mCurrentImg < 0) {
                     mCurrentImg = titles.size() - 1;
                 }
-                if (index >= 0) {
+                if (index > 0) {
                     page = index + "/" + vrPlays.size();
                     span = new SpannableString(page);
                     span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
@@ -506,20 +506,21 @@ public class VrListActivity extends BaseActivity {
 //            BaseApplication.playUrls.add(vrPlays.get(mCurrentImg).getVideo_url());
 //            VrListActivity.this.sendBroadcast(intent);
 //            BaseApplication.isDownLoad = true;
-//            DbUtils db = DbUtils.create(VrListActivity.this);
-//            LocalBean localBean = new LocalBean();
-//            localBean.setTitle(details.getTitle());
-//            localBean.setImage(details.getImage());
-//            localBean.setId(vrPlays.get(mCurrentImg).getVideo_url());
-//            localBean.setUrl(vrPlays.get(mCurrentImg).getVideo_url());
-//            localBean.setCurState(0);//還沒下載，準備下載
-//            try {
-//                db.delete(localBean);
-//                db.save(localBean);
-//            } catch (DbException e) {
-//                e.printStackTrace();
-//            }
-//            BaseApplication.downLoadManager.addTask()
+            DbUtils db = DbUtils.create(VrListActivity.this);
+            LocalBean localBean = new LocalBean();
+            localBean.setTitle(vrPlays.get(mCurrentImg).getTitle());
+            localBean.setImage(vrPlays.get(mCurrentImg).getImage());
+            localBean.setId(vrPlays.get(mCurrentImg).getVideo_url());
+            localBean.setUrl(vrPlays.get(mCurrentImg).getVideo_url());
+            localBean.setCurState(0);//還沒下載，準備下載
+            try {
+                db.delete(localBean);
+                db.save(localBean);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
+            VrPlay vrPlay = vrPlays.get(mCurrentImg);
+            BaseApplication.downLoadManager.addTask(vrPlay.getVideo_url(),vrPlay.getVideo_url(),vrPlay.getTitle()+".mp4",BaseApplication.VedioCacheUrl+vrPlay.getTitle()+".mp4");
             localUrlList.add(vrPlays.get(mCurrentImg).getVideo_url());
             bt_ceach2.setText("已下载");
             bt_ceach1.setText("已下载");
