@@ -81,7 +81,7 @@ public class DownLoadService extends Service {
         @Override
         public void onProgress(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
             //根据监听到的信息查找列表相对应的任务，更新相应任务的进度
-            System.out.println("---onProgress");
+            System.out.println("---onProgress"+sqlDownLoadInfo.getFilePath());
             Intent intent = new Intent(DOWNLOADING);
             intent.putExtra("play_url",sqlDownLoadInfo.getTaskID());
             intent.putExtra("current",sqlDownLoadInfo.getDownloadSize());
@@ -116,9 +116,10 @@ public class DownLoadService extends Service {
             String taskID = sqlDownLoadInfo.getTaskID();//taskID是网络地址
             try {
                 LocalBean localBean = db.findById(LocalBean.class,taskID);
-                localBean.setCurState(2);
-                localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
-                db.saveOrUpdate(localBean);
+//                localBean.setCurState(2);
+//                localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
+//                db.saveOrUpdate(localBean);
+                db.delete(localBean);
             } catch (DbException e) {
                 e.printStackTrace();
             }
