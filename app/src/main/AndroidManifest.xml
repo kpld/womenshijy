@@ -140,6 +140,7 @@
             android:enabled="true"
             android:exported="true" />
         <service android:name=".download.DownLoadService" />
+        <service android:name=".services.FileCacheService"/>
 
         <activity
             android:name=".LocalCachelActivity"

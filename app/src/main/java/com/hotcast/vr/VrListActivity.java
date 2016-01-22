@@ -136,17 +136,13 @@ public class VrListActivity extends BaseActivity {
             final String url = vrPlays.get(i).getVideo_url();
             final String title = vrPlays.get(i).getTitle();
             //for jiuyou change
-//            image3DView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    intent = new Intent(VrListActivity.this, PlayerVRActivityNew.class);
-//                    intent.putExtra("play_url", url);
-//                    intent.putExtra("title", title);
-//                    intent.putExtra("splite_screen", true);
-//                    VrListActivity.this.startActivity(intent);
-//                    System.out.println("***你点击了item，准备播放**");
-//                }
-//            });
+            image3DView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                     play(url, title);
+                    downLoadMovie();
+                }
+            });
 
             img3D.addView(image3DView);
         }
@@ -157,13 +153,13 @@ public class VrListActivity extends BaseActivity {
             image3DView.setLayoutParams(params);
             final String url = vrPlays.get(i).getVideo_url();
             final String title = vrPlays.get(i).getTitle();
-//            image3DView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
+            image3DView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 //                    play(url, title);
-//                    System.out.println("***你点击了item，准备播放**");
-//                }
-//            });
+                    downLoadMovie();
+                }
+            });
 
             img3D2.addView(image3DView);
         }
@@ -185,34 +181,6 @@ public class VrListActivity extends BaseActivity {
                 System.out.println("-----1執行");
                 img3D2.scrollBy(dix, 0);
                 img3D2.refreshImageShowing();
-//                if (index <= vrPlays.size()) {
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                } else {
-//                    index = 1;
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                }
-//                if (localUrlList.contains(vrPlays.get(index - 1).getVideo_url())) {
-//                    bt_ceach2.setText("已下载");
-//                    bt_ceach1.setText("已下载");
-//                }
 
             }
 
@@ -321,36 +289,6 @@ public class VrListActivity extends BaseActivity {
             public void Back() {
                 System.out.println("-----4執行");
                 img3D2.scrollBack();
-//                tv_page1.setText(index+"/"+vrPlays.size());
-//                tv_page2.setText(index + "/" + vrPlays.size());
-//                if (index > 0) {
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                } else {
-//                    index = vrPlays.size();
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                }
-//                if (localUrlList.contains(vrPlays.get(index - 1).getVideo_url())) {
-//                    bt_ceach2.setText("已下载");
-//                    bt_ceach1.setText("已下载");
-//                }
             }
         });
         img3D2.setOnMovechangeListener(new Image3DSwitchView.OnMovechangeListener() {
@@ -359,35 +297,6 @@ public class VrListActivity extends BaseActivity {
                 System.out.println("-----1執行");
                 img3D.scrollBy(dix, 0);
                 img3D.refreshImageShowing();
-//                if (index <= vrPlays.size()) {
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                } else {
-//                    index = 1;
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                }
-//                if (localUrlList.contains(vrPlays.get(index - 1).getVideo_url())) {
-//                    bt_ceach2.setText("已下载");
-//                    bt_ceach1.setText("已下载");
-//                }
-
             }
 
             @Override
@@ -494,36 +403,6 @@ public class VrListActivity extends BaseActivity {
             public void Back() {
                 System.out.println("-----4執行");
                 img3D.scrollBack();
-//                tv_page1.setText(index+"/"+vrPlays.size());
-//                tv_page2.setText(index + "/" + vrPlays.size());
-//                if (index > 0) {
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                } else {
-//                    index = vrPlays.size();
-//                    page = index + "/" + vrPlays.size();
-//                    span = new SpannableString(page);
-//                    span.setSpan(new ForegroundColorSpan(VrListActivity.this.getResources().getColor(R.color.material_blue_500)),
-//                            0, page.length() - 1 - ("" + vrPlays.size()).length(), Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
-//                    tv_page1.setText(span);
-//                    tv_page2.setText(span);
-//                    tv_title1.setText(titles.get(index-1));
-//                    tv_title2.setText(titles.get(index-1));
-//                    tv_desc1.setText(descs.get(index-1));
-//                    tv_desc2.setText(descs.get(index-1));
-//                }
-//                if (localUrlList.contains(vrPlays.get(index - 1).getVideo_url())) {
-//                    bt_ceach2.setText("已下载");
-//                    bt_ceach1.setText("已下载");
-//                }
             }
         });
         img3D.setOnImageSwitchListener(new Image3DSwitchView.OnImageSwitchListener() {
@@ -545,8 +424,6 @@ public class VrListActivity extends BaseActivity {
         container2.removeAllViews();
         container1.addView(view1.getRootView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
         container2.addView(view2.getRootView(), ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
-//        container1.setOnClickListener(this);
-//        container2.setOnClickListener(this);
     }
 
     @Override
@@ -614,33 +491,35 @@ public class VrListActivity extends BaseActivity {
         if (mCurrentImg < 0) {
             mCurrentImg = titles.size() - 1;
         }
+        System.out.println("---点击了："+vrPlays.get(mCurrentImg).getTitle());
         if (!localUrlList.contains(vrPlays.get(mCurrentImg).getVideo_url())) {
-            System.out.println("---点击了：" + vrPlays.get(mCurrentImg).getTitle() + "--url:" + vrPlays.get(mCurrentImg).getVideo_url());
-//                    System.out.println("---下载：" + vrPlays.get(mCurrentImg).getTitle());
-            Intent intent = new Intent(START);
-            Details details = new Details();
-            details.setTitle(vrPlays.get(mCurrentImg).getTitle());
-            System.out.println("---开始下载" + vrPlays.get(mCurrentImg).getTitle());
-            details.setImage(vrPlays.get(mCurrentImg).getImage());
-            details.setDesc(vrPlays.get(mCurrentImg).getDesc());
-//
-            BaseApplication.detailsList.add(details);
-            BaseApplication.playUrls.add(vrPlays.get(mCurrentImg).getVideo_url());
-            VrListActivity.this.sendBroadcast(intent);
-            BaseApplication.isDownLoad = true;
-            DbUtils db = DbUtils.create(VrListActivity.this);
-            LocalBean localBean = new LocalBean();
-            localBean.setTitle(details.getTitle());
-            localBean.setImage(details.getImage());
-            localBean.setId(vrPlays.get(mCurrentImg).getVideo_url());
-            localBean.setUrl(vrPlays.get(mCurrentImg).getVideo_url());
-            localBean.setCurState(0);//還沒下載，準備下載
-            try {
-                db.delete(localBean);
-                db.save(localBean);
-            } catch (DbException e) {
-                e.printStackTrace();
-            }
+//            System.out.println("---点击了：" + vrPlays.get(mCurrentImg).getTitle() + "--url:" + vrPlays.get(mCurrentImg).getVideo_url());
+////                    System.out.println("---下载：" + vrPlays.get(mCurrentImg).getTitle());
+//            Intent intent = new Intent(START);
+//            Details details = new Details();
+//            details.setTitle(vrPlays.get(mCurrentImg).getTitle());
+//            System.out.println("---开始下载" + vrPlays.get(mCurrentImg).getTitle());
+//            details.setImage(vrPlays.get(mCurrentImg).getImage());
+//            details.setDesc(vrPlays.get(mCurrentImg).getDesc());
+////
+//            BaseApplication.detailsList.add(details);
+//            BaseApplication.playUrls.add(vrPlays.get(mCurrentImg).getVideo_url());
+//            VrListActivity.this.sendBroadcast(intent);
+//            BaseApplication.isDownLoad = true;
+//            DbUtils db = DbUtils.create(VrListActivity.this);
+//            LocalBean localBean = new LocalBean();
+//            localBean.setTitle(details.getTitle());
+//            localBean.setImage(details.getImage());
+//            localBean.setId(vrPlays.get(mCurrentImg).getVideo_url());
+//            localBean.setUrl(vrPlays.get(mCurrentImg).getVideo_url());
+//            localBean.setCurState(0);//還沒下載，準備下載
+//            try {
+//                db.delete(localBean);
+//                db.save(localBean);
+//            } catch (DbException e) {
+//                e.printStackTrace();
+//            }
+//            BaseApplication.downLoadManager.addTask()
             localUrlList.add(vrPlays.get(mCurrentImg).getVideo_url());
             bt_ceach2.setText("已下载");
             bt_ceach1.setText("已下载");
@@ -750,10 +629,9 @@ public class VrListActivity extends BaseActivity {
     private static final int SNAP_VELOCITY = 600;
     private VelocityTracker mVelocityTracker;
     public Image3DSwitchView.OnMovechangeListener changeLisener;
-
-
     int downX, downY;
     int upX, upY;
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
 //        getParent().requestDisallowInterceptTouchEvent(true);

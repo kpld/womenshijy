@@ -4,26 +4,31 @@ import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
 
+import com.hotcast.vr.BaseApplication;
+import com.hotcast.vr.bean.LocalBean;
 import com.hotcast.vr.download.dbcontrol.bean.SQLDownLoadInfo;
+import com.lidroid.xutils.DbUtils;
+import com.lidroid.xutils.exception.DbException;
 
 /**
  * 类功能描述：下载器后台服务</br>
  *
  * @author zhuiji7  (470508081@qq.com)
  * @version 1.0
- * </p>
+ *          </p>
  */
 
 public class DownLoadService extends Service {
-    private static DownLoadManager  downLoadManager;
-    
+    private static DownLoadManager downLoadManager;
+    DbUtils db;
+
     @Override
     public IBinder onBind(Intent intent) {
         // TODO Auto-generated method stub
         return null;
     }
-    
-    public static DownLoadManager getDownLoadManager(){
+
+    public static DownLoadManager getDownLoadManager() {
         return downLoadManager;
     }
 
@@ -31,6 +36,8 @@ public class DownLoadService extends Service {
     public void onCreate() {
         super.onCreate();
         downLoadManager = new DownLoadManager(DownLoadService.this);
+        BaseApplication.downLoadManager = downLoadManager;
+        db = DbUtils.create(this);
     }
 
     @Override
@@ -44,31 +51,42 @@ public class DownLoadService extends Service {
     @Override
     public void onStart(Intent intent, int startId) {
         super.onStart(intent, startId);
-        if(downLoadManager == null){
+        if (downLoadManager == null) {
             downLoadManager = new DownLoadManager(DownLoadService.this);
         }
         downLoadManager.setAllTaskListener(new DownloadManagerListener());
     }
 
-    private class DownloadManagerListener implements DownLoadListener{
+    final String START = "START";
+    final String DOWNLOADING = "DOWNLOADING";
+    final String FINISH = "FINISH";
+    final String PAUSE = "PAUSE";
+    private class DownloadManagerListener implements DownLoadListener {
 
         @Override
         public void onStart(SQLDownLoadInfo sqlDownLoadInfo) {
             System.out.println("---接收到刷新信息onStart");
+            String taskID = sqlDownLoadInfo.getTaskID();//taskID是网络地址
+            try {
+                LocalBean localBean = db.findById(LocalBean.class,taskID);
+                localBean.setCurState(1);
+                localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
+                db.saveOrUpdate(localBean);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onProgress(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
             //根据监听到的信息查找列表相对应的任务，更新相应任务的进度
-//            for(TaskInfo taskInfo : listdata){
-//                if(taskInfo.getTaskID().equals(sqlDownLoadInfo.getTaskID())){
-//                    taskInfo.setDownFileSize(sqlDownLoadInfo.getDownloadSize());
-//                    taskInfo.setFileSize(sqlDownLoadInfo.getFileSize());
-//                    ListAdapter.this.notifyDataSetChanged();
-//                    break;
-//                }
-//            }
             System.out.println("---onProgress");
+            Intent intent = new Intent(DOWNLOADING);
+            intent.putExtra("play_url",sqlDownLoadInfo.getTaskID());
+            intent.putExtra("current",sqlDownLoadInfo.getDownloadSize());
+            intent.putExtra("total",sqlDownLoadInfo.getFileSize());
+            sendBroadcast(intent);
+
         }
 
         @Override
@@ -78,31 +96,33 @@ public class DownLoadService extends Service {
 
         @Override
         public void onSuccess(SQLDownLoadInfo sqlDownLoadInfo) {
-            //根据监听到的信息查找列表相对应的任务，删除对应的任务
-//            for(TaskInfo taskInfo : listdata){
-//                if(taskInfo.getTaskID().equals(sqlDownLoadInfo.getTaskID())){
-//                    listdata.remove(taskInfo);
-//                    ListAdapter.this.notifyDataSetChanged();
-//                    System.out.println("---onSuccess");
-//                    break;
-//                }
-//            }
+            System.out.println("---接收到刷新信息onSuccess");
+            String taskID = sqlDownLoadInfo.getTaskID();//taskID是网络地址
+            try {
+                LocalBean localBean = db.findById(LocalBean.class,taskID);
+                localBean.setCurState(3);
+                localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
+                db.saveOrUpdate(localBean);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
         }
 
         @Override
         public void onError(SQLDownLoadInfo sqlDownLoadInfo) {
             //根据监听到的信息查找列表相对应的任务，停止该任务
-//            for(TaskInfo taskInfo : listdata){
-//                if(taskInfo.getTaskID().equals(sqlDownLoadInfo.getTaskID())){
-//                    taskInfo.setOnDownloading(false);
-//                    ListAdapter.this.notifyDataSetChanged();
-//                    System.out.println("---onError");
-//                    break;
-//                }
-//            }
+            System.out.println("---接收到刷新信息onError");
+            String taskID = sqlDownLoadInfo.getTaskID();//taskID是网络地址
+            try {
+                LocalBean localBean = db.findById(LocalBean.class,taskID);
+                localBean.setCurState(2);
+                localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
+                db.saveOrUpdate(localBean);
+            } catch (DbException e) {
+                e.printStackTrace();
+            }
         }
     }
-    
-    
+
 
 }

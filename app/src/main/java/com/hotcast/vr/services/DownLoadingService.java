@@ -127,7 +127,6 @@ public class DownLoadingService extends Service {
                         LocalBean localBean = null;
                         try {
                             localBean = db.findById(LocalBean.class, nowurl);
-                            System.out.print("---数据库更新localBean：" + localBean);
                             if (localBean != null) {
                                 //状态更新
 //                                db.delete(localBean);
@@ -137,7 +136,12 @@ public class DownLoadingService extends Service {
 //                                db.save(localBean);
                             }
                         } catch (DbException e) {
-                            System.out.print("---数据库更新失败localBean：" + localBean);
+                            e.printStackTrace();
+                        }
+                        try {
+                            localBean = db.findById(LocalBean.class, nowurl);
+                            System.out.print("---数据库更新是否成功:" + localBean.getCurState());
+                        } catch (DbException e) {
                             e.printStackTrace();
                         }
                         super.onStart();

@@ -3,6 +3,7 @@ package com.hotcast.vr;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.os.Handler;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
@@ -94,14 +95,25 @@ public class SplashScapeActivity extends BaseActivity {
 
             @Override
             public void onFailure(HttpException e, String s) {
-                showToast("网络请求失败，请检查网络");
-                jump();
+                showToast("网络连接异常，请检查网络");
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        showToast("网络连接异常，请检查网络");
+                        jump();
+                    }
+                },3000);
             }
         });
     }
 
     private void saveNateDate() {
         DbUtils db = DbUtils.create(this);
+        try {
+            db.deleteAll(Classify.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
         for (int i = 0; i < classifies.size(); i++ ){
             try {
                 classifies.get(i).setId(classifies.get(i).getChannel_id());
@@ -110,8 +122,6 @@ public class SplashScapeActivity extends BaseActivity {
                 e.printStackTrace();
             }
         }
-
-
     }
 
     private void getUpDate() {

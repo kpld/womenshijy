@@ -17,6 +17,15 @@ public class LocalBean implements Serializable {
     String image;
     String url;
     Bitmap localBitmap;
+    boolean isDownloading = false;//下载中，暂停
+
+    public boolean isDownloading() {
+        return isDownloading;
+    }
+
+    public void setDownloading(boolean downloading) {
+        isDownloading = downloading;
+    }
 
     public Bitmap getLocalBitmap() {
         return localBitmap;
