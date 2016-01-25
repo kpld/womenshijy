@@ -318,7 +318,7 @@ public class LocalCachelActivity extends BaseActivity {
 
     public void clickVedio(int i) {
         String localurl = dbList.get(i).getLocalurl();
-        System.out.print("---点击播放了：" + localurl + "state:" + dbList.get(i).getCurState());
+
         File file;
         if (localurl != null) {
             file = new File(localurl);
@@ -326,38 +326,38 @@ public class LocalCachelActivity extends BaseActivity {
             file = new File(" ");
         }
         if (localurl != null && file.exists()) {
-//                        System.out.println("---本地地址：" + localurl + "---url:" + list.get(i).getUrl());
+            System.out.print("---点击播放了：" + localurl + "state:" + dbList.get(i).getCurState());
             Intent intent = new Intent(LocalCachelActivity.this, PlayerVRActivityNew.class);
             intent.putExtra("play_url", localurl);
             intent.putExtra("title", dbList.get(i).getTitle());
             intent.putExtra("splite_screen", true);
             LocalCachelActivity.this.startActivity(intent);
-        } else if (localurl == null) {
-            if (dbList.get(i).getCurState() == -1) {
-                System.out.print("---重新下载");
-                Intent intent = new Intent(START);
-                LocalCachelActivity.this.sendBroadcast(intent);
-                try {
-                    db.delete(dbList.get(i));
-                    dbList.get(i).setCurState(0);
-                    db.save(dbList.get(i));
-                } catch (DbException e) {
-                    e.printStackTrace();
-                }
-            } else if (dbList.get(i).getCurState() == 0) {
-                System.out.print("---暂停");
-                try {
-                    db.delete(dbList.get(i));
-                    dbList.get(i).setCurState(-1);
-                    db.save(dbList.get(i));
-                } catch (DbException e) {
-                    e.printStackTrace();
-                }
-                Intent intent = new Intent(PAUSE);
-                intent.putExtra("index", i);
-                sendBroadcast(intent);
-            }
         }
+//        else if (localurl == null) {
+//            if (dbList.get(i).getCurState() == -1) {
+//                System.out.print("---重新下载");
+//                Intent intent = new Intent(START);
+//                LocalCachelActivity.this.sendBroadcast(intent);
+//                try {
+//                    db.delete(dbList.get(i));
+//                    dbList.get(i).setCurState(0);
+//                    db.save(dbList.get(i));
+//                } catch (DbException e) {
+//                    e.printStackTrace();
+//                }
+//            } else if (dbList.get(i).getCurState() == 0) {
+//                System.out.print("---暂停");
+//                try {
+//                    db.delete(dbList.get(i));
+//                    dbList.get(i).setCurState(-1);
+//                    db.save(dbList.get(i));
+//                } catch (DbException e) {
+//                    e.printStackTrace();
+//                }
+//                Intent intent = new Intent(PAUSE);
+//                intent.putExtra("index", i);
+//                sendBroadcast(intent);
+//            }
     }
 
     @Override
@@ -732,7 +732,7 @@ public class LocalCachelActivity extends BaseActivity {
                 if (pecent == 0) {
                     pecent = current;
                 } else {
-                    speed = (current - pecent) / 1024 + "KB/S" + " 已下载" + (current * 100) / total + "%";
+                    speed = Math.abs(current - pecent) / 1024 + "KB/S" + " 已下载" + (current * 100) / total + "%";
                     pecent = current;
                     speeds.put(play_url, speed);
                     mHandler.sendEmptyMessage(100);
