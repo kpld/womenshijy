@@ -48,7 +48,7 @@ public class BaseApplication extends Application {
 
     public static String userName;
     public static DownLoadManager downLoadManager;
-    SharedPreferences sp = getSharedPreferences("cache_config",Context.MODE_PRIVATE);
+    SharedPreferences sp;
 
     public static BitmapUtils getDisplay(Context context, int failedImgId) {
         BitmapUtils mFinalBitmap = new BitmapUtils(context, IMG_DISCCACHE_DIR);
@@ -67,7 +67,8 @@ public class BaseApplication extends Application {
         this.startService(new Intent(this, DownLoadService.class));
         this.startService(new Intent(this, FileCacheService.class));
         initMeta();
-        BaseApplication.cacheFileChange = sp.getBoolean("cacheFileCache",false);
+        sp = getSharedPreferences("cache_config", Context.MODE_PRIVATE);
+        BaseApplication.cacheFileChange = sp.getBoolean("cacheFileCache", false);
     }
 
     private class MyExecptionHandler implements Thread.UncaughtExceptionHandler {

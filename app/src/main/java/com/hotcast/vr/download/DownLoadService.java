@@ -62,7 +62,6 @@ public class DownLoadService extends Service {
     final String FINISH = "FINISH";
     final String PAUSE = "PAUSE";
     private class DownloadManagerListener implements DownLoadListener {
-
         @Override
         public void onStart(SQLDownLoadInfo sqlDownLoadInfo) {
             System.out.println("---接收到刷新信息onStart");
