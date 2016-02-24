@@ -43,5 +43,11 @@
     <string name="pull_to_refresh_no_more_data">已经到底啦</string>
     <string name="pull_to_refresh_network_error">网络不给力，请检查网络</string>
 
+    <string name="title_activity_landscape_activity_new">LandscapeActivity_new</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+
+    <string name="title_activity_landscape_activity__second">LandscapeActivity_Second</string>
+
 
 </resources>

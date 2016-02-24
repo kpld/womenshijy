@@ -13,8 +13,14 @@ public class LocalBean implements Serializable {
     String PAUSE = "PAUSE";
     String WAITING = "WAITING";
 
+    String speed;
+    String pecent;
+
+
     String title;
+
     String image;
+
     String url;
     Bitmap localBitmap;
     boolean isDownloading = false;//下载中，暂停
@@ -50,9 +56,6 @@ public class LocalBean implements Serializable {
     public void setPecent(String pecent) {
         this.pecent = pecent;
     }
-
-    String speed;
-    String pecent;
 
     public String getState() {
         return state;
@@ -95,7 +98,7 @@ public class LocalBean implements Serializable {
     public static final int STATE_NONE = 0, STATE_DOWNLOADING = 1, STATE_FAILED = 2, STATE_SUCCESS = 3;
     private int curState = STATE_NONE;
     private long downloadId;
-    private long total, current;
+    private long total=1, current=1;
 
     public int getCurState() {
         return curState;

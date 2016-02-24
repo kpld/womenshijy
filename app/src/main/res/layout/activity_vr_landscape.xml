@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hotcast.vr.pageview.NoTouchView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:id="@+id/container1"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/backgroud_heng"
+            android:gravity="center">
+
+            <com.hotcast.vr.pageview.LandGalleyView
+                android:id="@+id/gallery1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:focusable="false" />
+
+            <include
+                android:id="@+id/loadingbar1"
+                layout="@layout/pagerchange_loading" />
+
+            <include
+                android:id="@+id/nointernet1"
+                layout="@layout/nointernet_window" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/container2"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/backgroud_heng"
+            android:gravity="center">
+
+            <com.hotcast.vr.pageview.LandGalleyView
+                android:id="@+id/gallery2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:focusable="false" />
+
+            <include
+                android:id="@+id/loadingbar2"
+                layout="@layout/pagerchange_loading" />
+
+            <include
+                android:id="@+id/nointernet2"
+                layout="@layout/nointernet_window" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:background="#99ffffff" />
+
+</com.hotcast.vr.pageview.NoTouchView>

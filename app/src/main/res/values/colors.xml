@@ -11,4 +11,8 @@
     <color name="seekbar_color">#787878</color>
     <color name="menu_item_text_color">#E60200</color>
 
+    <color name="black_overlay">#66000000</color>
+    <color name="downloadtext1">#fafafa</color>
+    <color name="downloadtext2">#4EEE94</color>
+    <color name="downloadtext3">#060d89</color>
 </resources>

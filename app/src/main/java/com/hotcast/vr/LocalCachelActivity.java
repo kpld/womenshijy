@@ -331,6 +331,7 @@ public class LocalCachelActivity extends BaseActivity {
             intent.putExtra("play_url", localurl);
             intent.putExtra("title", dbList.get(i).getTitle());
             intent.putExtra("splite_screen", true);
+//            intent.putExtra("degree",180f);
             LocalCachelActivity.this.startActivity(intent);
         }
 //        else if (localurl == null) {

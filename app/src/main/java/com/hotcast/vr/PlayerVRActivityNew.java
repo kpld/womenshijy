@@ -13,22 +13,32 @@ package com.hotcast.vr;
 import java.util.*;
 
 
+import com.google.gson.Gson;
+import com.hotcast.vr.bean.Play;
 import com.hotcast.vr.pageview.ChangeModeListener;
 import com.hotcast.vr.pageview.PlayerContralView;
+import com.hotcast.vr.tools.Constants;
 import com.hotcast.vr.tools.L;
+import com.lidroid.xutils.exception.HttpException;
+import com.lidroid.xutils.http.RequestParams;
+import com.lidroid.xutils.http.ResponseInfo;
+import com.lidroid.xutils.http.callback.RequestCallBack;
 import com.panframe.android.lib.*;
 
 import android.app.AlertDialog;
+import android.app.Service;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Matrix;
 import android.graphics.Point;
 import android.graphics.PointF;
+import android.media.AudioManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
+import android.text.TextUtils;
 import android.util.FloatMath;
 import android.util.Log;
 import android.view.*;
@@ -69,14 +79,65 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 
         public void handleMessage(Message message) {
             getWindow().getDecorView().setSystemUiVisibility(1542);
-            if(null != playerContralView){
+            if (null != playerContralView) {
 //                playerContralView.hide();
-                linCtr.setVisibility(View.GONE);
+                if (ctr_vist) {
+                    ctr_vist = false;
+                    linCtr.setVisibility(View.GONE);
+                }
             }
         }
     };
-//    double nLenStart = 0;
+    //    double nLenStart = 0;
+    String play_url;
+    Play play;
 
+    public void getplayUrl(String vid) {
+        String mUrl = Constants.PLAY_URL;
+        RequestParams params = new RequestParams();
+        params.addBodyParameter("token", "123");
+        params.addBodyParameter("version", BaseApplication.version);
+        params.addBodyParameter("platform", BaseApplication.platform);
+        params.addBodyParameter("vid", vid);
+        params.addBodyParameter("package", BaseApplication.packagename);
+        params.addBodyParameter("app_version", BaseApplication.version);
+        params.addBodyParameter("device", BaseApplication.device);
+        this.httpPost(mUrl, params, new RequestCallBack<String>() {
+            @Override
+            public void onStart() {
+                super.onStart();
+
+                L.e("DetailActivity onStart ");
+            }
+
+            @Override
+            public void onSuccess(ResponseInfo<String> responseInfo) {
+                L.e("---DetailActivity responseInfo:" + responseInfo.result);
+
+                play = new Gson().fromJson(responseInfo.result, Play.class);
+
+
+                if (!TextUtils.isEmpty(play.getSd_url())) {
+                    play_url = play.getSd_url();
+                } else if (!TextUtils.isEmpty(play.getHd_url())) {
+                    play_url = play.getHd_url();
+                } else if (!TextUtils.isEmpty(play.getUhd_url())) {
+                    play_url = play.getUhd_url();
+                }
+                System.out.println("---play_url:" + play_url);
+                title = play.getTitle();
+                initView();
+            }
+
+            @Override
+            public void onFailure(HttpException e, String s) {
+                L.e("DetailActivity onFailure ");
+                finish();
+            }
+        });
+
+
+    }
 
     /**
      * Start the video with a local file path
@@ -89,6 +150,7 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 //        System.out.println("---播放页面接受到的url："+filename);
         _pfview = PFObjectFactory.view(this);
         _pfview.setMode(curMode, 0);
+//        _pfview.setFieldOfView(360);
 
 //        _pfview.setFieldOfView(150);
 
@@ -102,8 +164,6 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 
         _pfasset.play();
 
-        System.out.println("---104--开始加载的时间 = " + System.currentTimeMillis());
-        showLoading("正在加载...");
     }
 
     /**
@@ -115,6 +175,7 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
      */
     float oldTime = 0;
     boolean isplaying;
+
     public void onStatusMessage(final PFAsset asset, PFAssetStatus status) {
         switch (status) {
             case LOADED:
@@ -123,7 +184,8 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
                 break;
             case DOWNLOADING:
                 Log.d("SimplePlayer", "Downloading 360� movie: " + _pfasset.getDownloadProgress() + " percent complete");
-                System.out.println("---123--Downloading 360� movie: " + _pfasset.getDownloadProgress() + " percent complete");;
+                System.out.println("---123--Downloading 360� movie: " + _pfasset.getDownloadProgress() + " percent complete");
+                ;
                 break;
             case DOWNLOADED:
                 System.out.println("---126--Downloaded to " + asset.getUrl());
@@ -153,26 +215,25 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
                                 totalDuration = (int) asset.getDuration();
                                 mPlayerContralView.setMax(totalDuration);
                                 mPlayerContralView.setTotalDuration(totalDuration);
-
                             }
                             mPlayerContralView.setCurTime((int) asset.getPlaybackTime());
-                            if (oldTime == asset.getPlaybackTime() && !isPause){
+                            if (oldTime == asset.getPlaybackTime() && !isPause) {
                                 showLoading("正在缓冲");
-                                System.out.println("----显示loading");
-                            } else if (oldTime>asset.getPlaybackTime()){
+//                                System.out.println("----显示loading");
+                            } else if (oldTime > asset.getPlaybackTime()) {
                                 oldTime = asset.getPlaybackTime();
                                 hideLoading();
-                                System.out.println("----隐藏loading1");
+//                                System.out.println("----隐藏loading1");
 
-                            }else if (oldTime<asset.getPlaybackTime()){
+                            } else if (oldTime < asset.getPlaybackTime()) {
                                 oldTime = asset.getPlaybackTime();
                                 hideLoading();
-                                System.out.println("----隐藏loading2");
-                            }else{
+//                                System.out.println("----隐藏loading2");
+                            } else {
                                 hideLoading();
-                                System.out.println("----隐藏loading3");
+//                                System.out.println("----隐藏loading3");
                             }
-                            L.e("asset.getPlaybackTime() = "+ asset.getPlaybackTime());
+                            L.e("asset.getPlaybackTime() = " + asset.getPlaybackTime());
 //                            if (asset.getPlaybackTime() == asset.getPlaybackTime() && !isPause){
 //                                showLoading("正在缓冲");
 //
@@ -277,7 +338,6 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
     };
 
 
-
     /**
      * Called when pausing the app.
      * This function pauses the playback of the asset when it is playing.
@@ -311,6 +371,7 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 
     private String title;
     private String titleSplitScreen;
+    private AudioManager audioManager; //音频
 
     @Override
     public void init() {
@@ -318,8 +379,23 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 //            title = getIntent().getStringExtra("title").substring(0,4);
 //            System.out.println("---length = " + title.length());
 //        }else {
-            title =  getIntent().getStringExtra("title");
+
 //        }
+        audioManager = (AudioManager) getSystemService(Service.AUDIO_SERVICE);
+
+        System.out.println("---104--开始加载的时间 = " + System.currentTimeMillis());
+        showLoading("正在加载...");
+        System.out.println("---" + vid + "---");
+        if (vid == null || TextUtils.isEmpty(vid)) {
+            initView();
+        } else {
+            System.out.println("---是网络数据播放");
+            getplayUrl(vid);
+        }
+
+    }
+
+    private void initView() {
         mPlayerContralView1 = new PlayerContralView(this, PlayerContralView.TYPE_360);
         mPlayerContralView2 = new PlayerContralView(this, PlayerContralView.TYPE_360);
         mPlayerContralView = new PlayerCtrMnger(mPlayerContralView1, mPlayerContralView2);
@@ -339,11 +415,11 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
             mPlayerContralView2.setSplitScreen(true);
             controller2.setVisibility(View.GONE);
         } else {
-            if (title.length() > 4){
+            if (title.length() > 4) {
                 titleSplitScreen = title.substring(0, 4);
                 System.out.println("---length = " + titleSplitScreen.length());
-            }else {
-                titleSplitScreen =  title;
+            } else {
+                titleSplitScreen = title;
             }
             mPlayerContralView1.setSplitScreen(false);
             mPlayerContralView2.setSplitScreen(false);
@@ -369,14 +445,15 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 
             @Override
             public void clickSplitScreen() {
-                System.out.println("***PlayerVRActivity***clickSplitScreen()");
+
                 if (curMode == MODE_NORMAL) {
-                    if (title.length() > 4){
+                    if (title.length() > 4) {
                         titleSplitScreen = title.substring(0, 4);
                         System.out.println("---length = " + titleSplitScreen.length());
-                    }else {
-                        titleSplitScreen =  title;
+                    } else {
+                        titleSplitScreen = title;
                     }
+                    System.out.println("111***PlayerVRActivity***clickSplitScreen()");
                     mPlayerContralView1.setTitle(titleSplitScreen);
                     mPlayerContralView2.setTitle(titleSplitScreen);
                     curMode = MODE_SPLIT_SCREEN;
@@ -389,15 +466,16 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
                     curMode = MODE_NORMAL;
                     mPlayerContralView1.setTitle(title);
                     mPlayerContralView2.setTitle(title);
+                    System.out.println("222***PlayerVRActivity***clickSplitScreen()");
 
                 }
-
+                linCtr.setVisibility(View.VISIBLE);
                 _pfview.setMode(curMode, 0);
 
             }
         });
         if (getIntent().getData() == null) {
-            loadVideo(getIntent().getStringExtra("play_url"));
+            loadVideo(play_url);
             System.out.println("---337--PlayerVRActivity***filename " + getIntent().getStringExtra("play_url"));
         } else {
             loadVideo(getIntent().getData().getPath());
@@ -409,8 +487,13 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 
     }
 
+    String vid;
+
     @Override
     public void getIntentData(Intent intent) {
+        vid = intent.getStringExtra("vid");
+        title = getIntent().getStringExtra("title");
+        play_url = getIntent().getStringExtra("play_url");
         boolean b = intent.getBooleanExtra("splite_screen", false);
         if (b) {
             curMode = MODE_SPLIT_SCREEN;
@@ -529,21 +612,26 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
             return true;
         } else {
             System.out.println("单手指触碰");
-            if(!ctr_vist && linCtr != null){
-//            playerContralView.show();
-                ctr_vist = true;
-                linCtr.setVisibility(View.VISIBLE);
-                System.out.println("显示进度条");
-            }else {
-                ctr_vist = false;
-                linCtr.setVisibility(View.GONE);
-                System.out.println("隐藏进度条");
+            switch (event.getAction()) {
+                case MotionEvent.ACTION_UP:
+                    if (linCtr != null) {
+                        if (!ctr_vist) {
+                            ctr_vist = true;
+                            linCtr.setVisibility(View.VISIBLE);
+                            System.out.println("---显示进度条1");
+                            delayedHide(4000);
+                        } else {
+                            ctr_vist = false;
+                            linCtr.setVisibility(View.GONE);
+                            System.out.println("---隐藏进度条1");
+                        }
+                    }
+                    break;
             }
-            delayedHide(4000);
-            ctr_vist = false;
             return super.dispatchTouchEvent(event);
         }
     }
+
     private void delayedHide(int i) {
         mHideSystemUIHandler.removeMessages(0);
         mHideSystemUIHandler.sendEmptyMessageDelayed(0, i);
@@ -552,8 +640,18 @@ public class PlayerVRActivityNew extends BaseLanActivity implements PFAssetObser
 
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
-        L.e("---keycode = "+keyCode);
-        switch (keyCode){
+        L.e("---keycode = " + keyCode);
+        switch (keyCode) {
+            case KeyEvent.KEYCODE_VOLUME_DOWN:
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                        AudioManager.ADJUST_LOWER,
+                        AudioManager.FLAG_SHOW_UI);//调低声音
+                break;
+            case KeyEvent.KEYCODE_VOLUME_UP:
+                audioManager.adjustStreamVolume(AudioManager.STREAM_MUSIC,
+                        AudioManager.ADJUST_RAISE,
+                        AudioManager.FLAG_SHOW_UI);
+                break;
             case KeyEvent.KEYCODE_BACK:
             case KeyEvent.KEYCODE_BUTTON_B:
                 finish();

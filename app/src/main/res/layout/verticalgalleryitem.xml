@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/container1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginBottom="60dp">
+
+    <com.hotcast.vr.pageview.LandGalleyView
+        android:id="@+id/gallery1"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_centerInParent="true"
+        android:layout_marginBottom="4dp"
+        android:focusable="false"
+        android:spacing="5dp" />
+
+    <TextView
+        android:id="@+id/tv_title1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gallery1"
+        android:layout_centerHorizontal="true"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="影片标题"
+        android:textColor="#ffffff"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_desc1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="影片描述"
+        android:textColor="#ffffff"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/bt_ceach1"
+        android:layout_width="35dp"
+        android:layout_height="18dp"
+        android:layout_below="@+id/tv_desc1"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/download_button_nomal"
+        android:gravity="center"
+        android:text="未下载"
+        android:textColor="@color/downloadtext1"
+        android:textSize="8sp" />
+
+
+    <include
+        android:id="@+id/loadingbar1"
+        layout="@layout/pagerchange_loading" />
+
+    <include
+        android:id="@+id/nointernet1"
+        layout="@layout/nointernet_window" />
+</RelativeLayout>

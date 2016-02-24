@@ -4,10 +4,14 @@ import android.app.Application;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.DisplayMetrics;
 
+import com.hotcast.vr.asynctask.LocalVideosAsynctask;
 import com.hotcast.vr.bean.Classify;
 import com.hotcast.vr.bean.Details;
 import com.hotcast.vr.bean.HomeRoll;
@@ -31,6 +35,13 @@ public class BaseApplication extends Application {
     public static final String TAG = BaseApplication.class.getSimpleName();
     //    public static BitmapUtils mFinalBitmap;
     private static BaseApplication instance;
+    public static boolean is3Dbitmap = false;
+    public static String version;//版本号
+    public static String platform;//平台号
+    public static String device = "weihuoqu";//设备号
+    public static String packagename;//包名
+    //处理本地缓存是否完毕
+    public static boolean doAsynctask;
 
     public static BaseApplication getInstance() {
         return instance;
@@ -57,18 +68,31 @@ public class BaseApplication extends Application {
         return mFinalBitmap;
     }
 
+    public static PackageInfo info;
+    private PackageManager packageManager;
 
     @Override
     public void onCreate() {
         Thread.currentThread().setUncaughtExceptionHandler(new MyExecptionHandler());
+
         super.onCreate();
         userName = "moreng1";
         instance = this;
         this.startService(new Intent(this, DownLoadService.class));
         this.startService(new Intent(this, FileCacheService.class));
         initMeta();
+        packageManager = this.getPackageManager();
+        try {
+            info = packageManager.getPackageInfo(this.getPackageName(), 0);
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
         sp = getSharedPreferences("cache_config", Context.MODE_PRIVATE);
         BaseApplication.cacheFileChange = sp.getBoolean("cacheFileCache", false);
+        BaseApplication.version = info.versionName;
+        BaseApplication.platform = getAppMetaData(this, "UMENG_CHANNEL");
+        BaseApplication.packagename = info.packageName;
+        System.out.println("---" + getAppMetaData(this, "UMENG_CHANNEL"));
     }
 
     private class MyExecptionHandler implements Thread.UncaughtExceptionHandler {
@@ -108,5 +132,27 @@ public class BaseApplication extends Application {
         return outMetrics;
     }
 
+    public static String getAppMetaData(Context ctx, String key) {
+        if (ctx == null || TextUtils.isEmpty(key)) {
+            return null;
+        }
+        String resultData = null;
+        try {
+            PackageManager packageManager = ctx.getPackageManager();
+            if (packageManager != null) {
 
+                ApplicationInfo applicationInfo = packageManager.getApplicationInfo(ctx.getPackageName(), PackageManager.GET_META_DATA);
+                if (applicationInfo != null) {
+                    if (applicationInfo.metaData != null) {
+                        resultData = applicationInfo.metaData.getString(key);
+                    }
+                }
+
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return resultData;
+    }
 }

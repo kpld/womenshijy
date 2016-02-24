@@ -71,6 +71,8 @@ public class DownLoadService extends Service {
                 localBean.setCurState(1);
                 localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
                 localBean.setDownloading(true);
+                localBean.setCurrent(1);
+                localBean.setTotal(sqlDownLoadInfo.getFileSize());
                 db.saveOrUpdate(localBean);
             } catch (DbException e) {
                 e.printStackTrace();
@@ -80,11 +82,11 @@ public class DownLoadService extends Service {
         @Override
         public void onProgress(SQLDownLoadInfo sqlDownLoadInfo, boolean isSupportBreakpoint) {
             //根据监听到的信息查找列表相对应的任务，更新相应任务的进度
-            System.out.println("---onProgress"+sqlDownLoadInfo.getFilePath());
+            System.out.println("---onProgress"+sqlDownLoadInfo.getFilePath()+sqlDownLoadInfo.getFileSize());
             Intent intent = new Intent(DOWNLOADING);
-            intent.putExtra("play_url",sqlDownLoadInfo.getTaskID());
-            intent.putExtra("current",sqlDownLoadInfo.getDownloadSize());
+            intent.putExtra("vid",sqlDownLoadInfo.getTaskID());
             intent.putExtra("total",sqlDownLoadInfo.getFileSize());
+            intent.putExtra("current",sqlDownLoadInfo.getDownloadSize());
             sendBroadcast(intent);
 
         }
@@ -97,12 +99,17 @@ public class DownLoadService extends Service {
         @Override
         public void onSuccess(SQLDownLoadInfo sqlDownLoadInfo) {
             System.out.println("---接收到刷新信息onSuccess");
-            String taskID = sqlDownLoadInfo.getTaskID();//taskID是网络地址
+            String taskID = sqlDownLoadInfo.getTaskID();//taskID是VID
             try {
                 LocalBean localBean = db.findById(LocalBean.class,taskID);
                 localBean.setCurState(3);
                 localBean.setLocalurl(BaseApplication.VedioCacheUrl+localBean.getTitle()+".mp4");
                 db.saveOrUpdate(localBean);
+
+                Intent intent = new Intent(FINISH);
+                intent.putExtra("vid",sqlDownLoadInfo.getTaskID());
+                intent.putExtra("total",sqlDownLoadInfo.getFileSize());
+                sendBroadcast(intent);
             } catch (DbException e) {
                 e.printStackTrace();
             }

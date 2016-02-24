@@ -276,7 +276,7 @@ public class DetailActivity extends BaseActivity {
                 L.e("DetailActivity playUrls:" + playUrls + "***size = " + size);
 
                 for (int i = 0; i < size; i++) {
-                    playUrl.add(playUrls.get(i).getUrls());
+//                    playUrl.add(playUrls.get(i).getUrls());
                     playTitle.add(playUrls.get(i).getTitle());
                 }
                 play_url = playUrl.get(0).getShd();

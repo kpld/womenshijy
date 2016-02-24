@@ -438,7 +438,7 @@ public class LandscapeActivity extends BaseActivity implements View.OnClickListe
                     mLastMotionX = x;
                     break;
                 case MotionEvent.ACTION_MOVE:
-                    int disX = (int) (mLastMotionX - x);
+                    int disX = (int) (mLastMotionX - x)/4;
                     mLastMotionX = x;
                     // 当发生移动时刷新图片的显示状态
                     img3D.scrollBy(disX, 0);

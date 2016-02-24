@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center">
+    <Gallery
+        android:id="@+id/mygalley"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        />
+    <TextView
+        android:id="@+id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/galley2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="影片标题"
+        android:textColor="#ffffff"
+        android:textSize="10sp" />
+
+    <TextView
+        android:id="@+id/tv_desc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_title"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="3dp"
+        android:ellipsize="end"
+        android:singleLine="true"
+        android:text="影片描述"
+        android:textColor="#ffffff"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/bt_ceach"
+        android:layout_width="35dp"
+        android:layout_height="18dp"
+        android:layout_below="@+id/tv_desc"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="6dp"
+        android:background="@drawable/download_button_selector"
+        android:gravity="center"
+        android:text="未下载"
+        android:textColor="@color/downloadtext1"
+        android:textSize="8sp" />
+
+    <TextView
+        android:id="@+id/tv_page"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="1/5"
+        android:textColor="#ffffff"
+        android:textSize="10sp"
+        android:layout_alignTop="@+id/bt_ceach"
+        android:layout_toRightOf="@+id/tv_title"
+        android:layout_toEndOf="@+id/tv_title"
+        android:layout_marginLeft="18dp"
+        />
+    <RelativeLayout
+        android:id="@+id/rl_update"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progressBar_update"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="250dp"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true" />
+
+        <TextView
+            android:id="@+id/bt_cancel_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_below="@id/progressBar_update"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="8dp"
+            android:text="取消更新" />
+    </RelativeLayout>
+</LinearLayout>

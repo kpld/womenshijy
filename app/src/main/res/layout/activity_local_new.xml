@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.hotcast.vr.pageview.NoTouchView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/backgroud_heng">
+            <RelativeLayout
+                android:id="@+id/container1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+
+                <com.hotcast.vr.pageview.LandGalleyView
+                    android:id="@+id/gallery1"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:layout_centerVertical="true"
+                    android:focusable="false"
+                    android:spacing="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_downloading1"
+                    android:layout_width="118dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/gallery1"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="#88000000"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_pecent1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="已下载0%"
+                        android:textSize="8dp" />
+
+                    <TextView
+                        android:id="@+id/tv_speed1"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0KB/S"
+                        android:textSize="8dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_title1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gallery1"
+                    android:layout_centerHorizontal="true"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="影片标题"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+
+            </RelativeLayout>
+            <include
+                android:id="@+id/delete_window1"
+                layout="@layout/delete_window" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@mipmap/backgroud_heng">
+            <RelativeLayout
+                android:id="@+id/container2"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="20dp"
+                android:gravity="center">
+
+                <com.hotcast.vr.pageview.LandGalleyView
+                    android:id="@+id/gallery2"
+                    android:layout_width="match_parent"
+                    android:layout_height="80dp"
+                    android:focusable="false"
+                    android:spacing="5dp" />
+
+                <LinearLayout
+                    android:id="@+id/ll_downloading2"
+                    android:layout_width="118dp"
+                    android:layout_height="wrap_content"
+                    android:layout_alignBottom="@+id/gallery2"
+                    android:layout_centerHorizontal="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="#88000000"
+                    android:gravity="center_horizontal">
+
+                    <TextView
+                        android:id="@+id/tv_pecent2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="已下载0%"
+                        android:textSize="8dp" />
+
+                    <TextView
+                        android:id="@+id/tv_speed2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="0KB/S"
+                        android:textSize="8dp" />
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/tv_title2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/gallery2"
+                    android:layout_centerHorizontal="true"
+                    android:ellipsize="end"
+                    android:singleLine="true"
+                    android:text="影片标题"
+                    android:textColor="#ffffff"
+                    android:textSize="10sp" />
+            </RelativeLayout>
+            <include
+                android:id="@+id/delete_window2"
+                layout="@layout/delete_window" />
+        </RelativeLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="2dp"
+        android:layout_height="match_parent"
+        android:layout_centerHorizontal="true"
+        android:background="#99ffffff" />
+
+</com.hotcast.vr.pageview.NoTouchView>

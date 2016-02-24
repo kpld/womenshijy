@@ -9,6 +9,9 @@ import android.widget.RelativeLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.hotcast.vr.asynctask.LocalVideosAsynctask;
+import com.hotcast.vr.bean.ChanelData;
+import com.hotcast.vr.bean.Channel;
 import com.hotcast.vr.bean.Classify;
 import com.hotcast.vr.bean.Update;
 import com.hotcast.vr.pageview.SplashView;
@@ -24,6 +27,7 @@ import com.lidroid.xutils.http.ResponseInfo;
 import com.lidroid.xutils.http.callback.RequestCallBack;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -38,16 +42,18 @@ public class SplashScapeActivity extends BaseActivity {
     RelativeLayout container1;
     @InjectView(R.id.container2)
     RelativeLayout container2;
-    private SplashView view1,view2;
+    private SplashView view1, view2;
     SplashActivity splashActivity;
     //下载路径
-    private String spec ;
+    private String spec;
     private String newFeatures;
     //是否强制更新
     private int force;
     private PackageInfo info;
+
     @Override
     public int getLayoutId() {
+        new LocalVideosAsynctask(this).execute();
         try {
             info = this.getPackageManager().getPackageInfo(this.getPackageName(), 0);
             System.out.println("--versioName = " + info.versionName);
@@ -74,11 +80,14 @@ public class SplashScapeActivity extends BaseActivity {
 
     }
 
-    private List<Classify> classifies;
+    Channel channel;
+
     private void getNetDate() {
         RequestParams params = new RequestParams();
         params.addBodyParameter("token", "123");
-        this.httpPost(Constants.URL_CLASSIFY_TITLTE, params, new RequestCallBack<String>() {
+        params.addBodyParameter("version", BaseApplication.version);
+        params.addBodyParameter("platform", BaseApplication.platform);
+        this.httpPost(Constants.CHANNEL_LIST, params, new RequestCallBack<String>() {
             @Override
             public void onStart() {
                 super.onStart();
@@ -86,9 +95,8 @@ public class SplashScapeActivity extends BaseActivity {
 
             @Override
             public void onSuccess(ResponseInfo<String> responseInfo) {
-                L.e("ClassifyView  responseInfo:" + responseInfo.result);
-                classifies = new Gson().fromJson(responseInfo.result, new TypeToken<List<Classify>>() {
-                }.getType());
+                System.out.println("---responseInfo" + responseInfo.result);
+                channel = new Gson().fromJson(responseInfo.result, Channel.class);
                 saveNateDate();
                 startJmp();
             }
@@ -102,30 +110,32 @@ public class SplashScapeActivity extends BaseActivity {
                         showToast("网络连接异常，请检查网络");
                         jump();
                     }
-                },3000);
+                }, 3000);
             }
         });
     }
 
+    List<ChanelData> netClassifys;
+
     private void saveNateDate() {
+        netClassifys = channel.getData();
         DbUtils db = DbUtils.create(this);
         try {
-            db.deleteAll(Classify.class);
+            db.deleteAll(ChanelData.class);
         } catch (DbException e) {
             e.printStackTrace();
         }
-        for (int i = 0; i < classifies.size(); i++ ){
-            try {
-                classifies.get(i).setId(classifies.get(i).getChannel_id());
-                db.save(classifies.get(i));
-            } catch (DbException e) {
-                e.printStackTrace();
+        try {
+            for (int i =0;i<netClassifys.size();i++){
+                db.save(netClassifys.get(i));
             }
+        } catch (DbException e) {
+            e.printStackTrace();
         }
     }
 
     private void getUpDate() {
-        System.out.println("---"+SplashActivity.getAppMetaData(this, "UMENG_CHANNEL"));
+        System.out.println("---" + SplashActivity.getAppMetaData(this, "UMENG_CHANNEL"));
         RequestParams params = new RequestParams();
         params.addBodyParameter("token", "123");
         params.addBodyParameter("version", info.versionName);
@@ -147,8 +157,10 @@ public class SplashScapeActivity extends BaseActivity {
             }
         });
     }
+
     private String current;
-    private void setViewData(String json){
+
+    private void setViewData(String json) {
         if (Utils.textIsNull(json)) {
             return;
         }
@@ -160,12 +172,15 @@ public class SplashScapeActivity extends BaseActivity {
         newFeatures = update.getLog();
         System.out.println("----SplashActivity spec:" + spec + ",force:" + force);
     }
+
     @Override
     protected void onResume() {
         super.onResume();
 
     }
+
     private Timer timer;
+
     private void startJmp() {
         timer = new Timer();
         timer.schedule(new TimerTask() {
@@ -178,19 +193,33 @@ public class SplashScapeActivity extends BaseActivity {
     }
 
     private void pageJump() {
-        Intent intent = new Intent(this,LandscapeActivity.class);
+        Intent intent = new Intent(this, LandscapeActivity_new.class);
         if (!info.versionName.equals(current)) {
             BaseApplication.isUpdate = true;
             intent.putExtra("spec", spec);
             intent.putExtra("force", force);
-            intent.putExtra("newFeatures",newFeatures);
+            intent.putExtra("newFeatures", newFeatures);
         }
-        intent.putExtra("classifies", (Serializable) classifies);
+        intent.putExtra("channel", (Serializable) channel);
+        intent.putExtra("netClassifys", (Serializable) netClassifys);
         startActivity(intent);
         finish();
     }
-    private void jump(){
-        startActivity(new Intent(this,LandscapeActivity.class));
+
+    private void jump() {
+        DbUtils db = DbUtils.create(this);
+        try {
+            netClassifys = db.findAll(ChanelData.class);
+        } catch (DbException e) {
+            e.printStackTrace();
+        }
+        if (netClassifys==null){
+            netClassifys = new ArrayList<>();
+        }
+        System.out.println("---netClassifys1"+netClassifys);
+        Intent intent = new Intent(this, LandscapeActivity_new.class);
+        intent.putExtra("netClassifys", (Serializable) netClassifys);
+        startActivity(intent);
         finish();
     }
 

@@ -181,7 +181,6 @@ public class VrListActivity extends BaseActivity {
                 System.out.println("-----1執行");
                 img3D2.scrollBy(dix, 0);
                 img3D2.refreshImageShowing();
-
             }
 
             @Override
